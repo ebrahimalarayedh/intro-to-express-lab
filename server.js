@@ -64,6 +64,49 @@ app.get('/hello',(req,res)=>{
     console.log(name,age)
 })
 
+// app.get('/shoes',(req,res)=>{
+//     let name= req.query.name
+//     let price= req.query.price
+//     let type= req.query.type
+//     console.log(name, price,type)
+//     res.send(`your choice is ${name}, it is ${price}`)
+// })
+
+app.get('/shoes',(req,res)=>{
+    
+    let minPprice= req.query.minprice
+    let maxPrice= req.query.maxprice
+    let type= req.query.type
+
+    if(req.query.minprice && req.query.maxprice && req.query.type){
+        const inBound = shoes.filter((element)=>{
+            return element.price>=req.query.minprice && element.price<=req.query.maxprice && element.type.toLocaleLowerCase()===req.query.type.toLocaleLowerCase()
+        })
+        res.send(inBound)
+    }
+    else     if(req.query.minprice && req.query.maxprice){
+        const inBound = shoes.filter((element)=>{
+            return element.price>=req.query.minprice && element.price<=req.query.maxprice
+        })
+        res.send(inBound)
+    }
+    else     if(req.query.minprice && req.query.type){
+        const inBound = shoes.filter((element)=>{
+            return element.price>=req.query.minprice && element.type.toLocaleLowerCase()===req.query.type.toLocaleLowerCase()
+        })
+        res.send(inBound)
+    }
+    else     if(req.query.maxprice && req.query.type){
+        const inBound = shoes.filter((element)=>{
+            return element.price<=req.query.maxprice && element.type.toLocaleLowerCase()===req.query.type.toLocaleLowerCase()
+        })
+        res.send(inBound)
+    }
+    else
+    res.send(shoes)
+
+})
+
 
 
 
